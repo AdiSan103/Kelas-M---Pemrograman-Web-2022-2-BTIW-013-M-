@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.2/css/jquery.dataTables.css">
+</head>
+
+<div>
+
+    <a href="/tambah.html">TAMBAH</a>
+    <br />
+    <br />
+    <table id="table_id" class="display">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nama Lengkap</th>
+                <th>Email</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody  class="main">
+
+        </tbody>
+    </table>
+</div>
+<body>
+    <script>
+
+            // The XMLHttpRequest Object
+            //All modern browsers support the XMLHttpRequest object.
+
+            //The XMLHttpRequest object can be used to exchange data with a web server behind the scenes. This means that it is possible to update parts of a web page, without reloading the whole page.
+
+            // 1. Create an XMLHttpRequest object
+            const xhttp = new XMLHttpRequest();
+            // target is data json in url api
+            let target = "https://webpro.ptov.my.id/api/curduser.php?aksi=get";
+
+            //2. Define a callback function
+            xhttp.onload = function() {
+                const data = JSON.parse(this.responseText);
+                //show data i url
+                console.log(data['isi']);
+
+                // header
+                let tx =  `
+
+                `;
+
+                // main
+                for(let i = 0; i < data['isi'].length; i++) {
+                    tx += `
+                        <tr>
+                            <td>` + data['isi'][i][0] + `</td>
+                            <td>` + data['isi'][i][1] + `</td>
+                            <td>` + data['isi'][i][2] + `</td>
+                            <td>` + data['isi'][i][3] + `</td>
+                        </tr>
+                    `;
+                }
+
+                // insert data 
+                document.querySelector('.main').innerHTML = tx;
+
+            }
+
+            //2. Send a Request
+            xhttp.open("GET", target);
+            xhttp.send();
+    </script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.1/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready( function () {
+            $('#table_id').DataTable();
+        } );
+    </script>
+    
+</body>
+</html>
