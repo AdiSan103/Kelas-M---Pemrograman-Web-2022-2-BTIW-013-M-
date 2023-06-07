@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" method="GET">
+        <input type="text" id="txIDUSER">
+        <div>
+            Nama Lengkap
+            <input type="text" id="txNAMA">
+        </div>
+        <div>
+            Email
+            <input type="email" id="txEMAIL">
+        </div>
+        <div>
+            User Name
+            <input type="text" id="txUSER">
+        </div>
+        <div>
+            Password
+            <input type="text" id="txPASS1">
+        </div>
+        <div>
+            Verifikasi Password
+            <input type="text" id="txPASS2">
+        </div>
+        <div>
+            <button type="button" onclick="updatedata()">UPDATE</button>
+        </div>
+    </form>
+
+    <script>
+        
+        // get data bby id
+
+        // input lama
+        let inputNama = document.querySelector('#txNAMA');
+        let inputEmail = document.querySelector('#txEMAIL');
+        let inputUser = document.querySelector('#txUSER');
+        let pass1 = document.getElementById("txPASS1");
+        let pass2 = document.getElementById("txPASS2");
+        let iduser = document.getElementById("txIDUSER");
+
+        // url
+        let target = "https://webpro.ptov.my.id/api/curduser.php?aksi=get&q=";
+
+        // id params
+        let params = new URLSearchParams(location.search);
+        let id_params = params.get('id');
+
+        const bacadta = new XMLHttpRequest();
+
+        bacadta.open("GET",target + id_params);
+
+        bacadta.send();
+
+        bacadta.onload = function(){
+            const jdta = JSON.parse(this.responseText);
+
+            //console.log(jdta.isi[0]);
+            
+            //data lama
+            inputNama.value = jdta.isi[0][0];
+            inputEmail.value = jdta.isi[0][1];
+            inputUser.value = jdta.isi[0][2];
+            pass1.value = jdta.isi[0][3];
+            pass2.value = jdta.isi[0][3];
+            iduser.value = id_params;
+
+        }
+    </script>
+
+    <script>
+        function updatedata(){
+            let target = "https://webpro.ptov.my.id/api/curduser.php?aksi=update";
+            let nama = document.getElementById("txNAMA").value;
+            let email = document.getElementById("txEMAIL").value;
+            let username = document.getElementById("txUSER").value;
+            let pass1 = document.getElementById("txPASS1").value;
+            let pass2 = document.getElementById("txPASS2").value;
+            let iduser = document.getElementById("txIDUSER").value;
+            let parameter = "nama="+nama+"&email="+email+"&username="+username+"&pass1="+pass1+"&pass2="+pass2+'&iduser='+iduser;
+
+            const storedata = new XMLHttpRequest();
+            storedata.open("POST",target,true);
+            storedata.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            storedata.send(parameter);
+
+            storedata.onload = function(){
+                const gdta = JSON.parse(this.responseText);
+            }
+
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<p>ID ANDA : </p>
+<body>
+    <script>
+        function updatedata(){
+            // id params
+            let params = new URLSearchParams(location.search);
+            let id_params = params.get('id');
+            document.querySelector("p").innerHTML = id_params;
+            let target = "https://webpro.ptov.my.id/api/curduser.php?aksi=destroy";
+
+            let parameter = "&iduser="+id_params;
+
+            const storedata = new XMLHttpRequest();
+            
+            storedata.open("POST",target,true);
+            storedata.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+            storedata.send(parameter);
+
+            storedata.onload = function(){
+                const gdta = JSON.parse(this.responseText);
+                alert('berhasil dihapus');
+            }
+
+        }
+    </script>
+</body>
+</html>
